@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.8
 
 import PackageDescription
 
@@ -14,9 +14,10 @@ let package = Package(
       name: "age-plugin-se",
       dependencies: [
         .product(
-          name: "Crypto", package: "swift-crypto", condition: .when(platforms: [.linux, .windows]))
+          name: "Crypto", package: "swift-crypto", condition: .when(platforms: [.linux, .windows])
+        ),
       ],
-      path: "Sources"),
-    .testTarget(name: "Tests", dependencies: ["age-plugin-se"], path: "Tests"),
+    ),
+    .testTarget(name: "Tests", dependencies: ["age-plugin-se"],),
   ]
 )
