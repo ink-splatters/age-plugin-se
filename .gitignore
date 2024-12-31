@@ -3,3 +3,5 @@
 /manual-tests
 /.vscode/launch.json
 /default.profraw
+/.pre-commit-config.yaml
+/.direnv
