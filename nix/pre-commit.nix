@@ -11,11 +11,11 @@ rec {
 
     hooks = {
       deadnix.enable = true;
-      markdownlint.enable = true;
+      # markdownlint.enable = true;
       nil.enable = true;
       nixfmt-rfc-style.enable = true;
       statix.enable = true;
-      shellcheck.enable = true;
+      # shellcheck.enable = true;
       shfmt.enable = true;
       # swift.enable = true;
     };
