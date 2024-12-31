@@ -66,6 +66,10 @@ page](https://github.com/remko/age-plugin-se/releases).
         doas apk add ./age-plugin-se-doc-0.1.3-r0-noarch.apk
 
 
+### nix
+
+TODO
+
 ### Building from source
 
 1.  (non-macOS only) Download and install
