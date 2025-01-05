@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
 
-    systems.url = "github:nix-systems/default";
+    systems.url = "github:nix-systems/default-darwin";
     flake-utils.inputs.systems.follows = "systems";
 
     git-hooks = {
@@ -25,6 +25,7 @@
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
+    extra-experimental-features = "ca-derivations fetch-closure";
   };
 
   outputs =
@@ -50,7 +51,13 @@
 
         formatter = pkgs.nixfmt-rfc-style;
         devShells.default = pkgs.callPackage ./nix/dev-shell.nix { };
-        packages.default = pkgs.callPackage ./nix/package { };
+        packages = {
+          default = pkgs.callPackage ./nix/package { };
+          fetch-closure = builtins.fetchClosure {
+            fromStore = "https://aarch64-darwin.cachix.org";
+            fromPath = "/nix/store/iqfyxn1qszn6sx8pyis7dcrblmjlk37w-age-plugin-se-0.1.4";
+          };
+        };
       }
     );
 }
