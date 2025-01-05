@@ -26,4 +26,9 @@ swift.stdenv.mkDerivation rec {
   '';
 
   enableParallelBuilding = true;
+
+  __contentAddressed = true;
+  outputHashTye = "sha256";
+  outputHashMode = "recursive";
+  outputHash = "sha256-OySBeUUk9ryYGEXvuBTC5G9ccsylLlq9M59+4DffHt8=";
 }
