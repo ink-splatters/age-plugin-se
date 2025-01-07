@@ -1,23 +1,17 @@
 {
   swift,
   swiftpm,
-  swiftpm2nix,
   ...
 }:
-let
-  generated = swiftpm2nix.helpers ./swiftpm2nix;
-in
 swift.stdenv.mkDerivation rec {
   pname = "age-plugin-se";
-  version = "0.1.4";
+  version = "0.1.4-macos-only";
   src = ../../.;
 
   nativeBuildInputs = [
     swift
     swiftpm
   ];
-
-  configurePhase = generated.configure;
 
   installPhase = ''
     binPath="$(swiftpmBinPath)"
@@ -30,5 +24,5 @@ swift.stdenv.mkDerivation rec {
   __contentAddressed = true;
   outputHashTye = "sha256";
   outputHashMode = "recursive";
-  outputHash = "sha256-OySBeUUk9ryYGEXvuBTC5G9ccsylLlq9M59+4DffHt8=";
+  outputHash = "sha256-+/AAL17GmNtZi/QiLmh2DBQ05Ti6dfFZ6tptpf2IkBc=";
 }
