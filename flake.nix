@@ -4,8 +4,10 @@
   inputs = {
     git-hooks-nix = {
       url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-compat.follows = "flake-compat";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -42,7 +44,6 @@
       flakeModule = import ./nix/flake-module.nix {};
       systems = import nix-systems;
     in {
-      debug = true;
       imports = [
         git-hooks-nix.flakeModule
         pre-commit
