@@ -53,7 +53,7 @@
       inherit systems;
 
       perSystem = {pkgs, ...}: {
-        formatter = pkgs.nixfmt-classic;
+        formatter = pkgs.alejandra;
       };
 
       flake = {
