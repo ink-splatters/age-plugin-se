@@ -1,5 +1,5 @@
 {
-  description = "Description for the project";
+  description = "Age plugin for Apple's Secure Enclave";
 
   inputs = {
     git-hooks-nix = {
