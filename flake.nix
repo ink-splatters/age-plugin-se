@@ -38,11 +38,17 @@
     nix-systems,
     ...
   }:
-    flake-parts.lib.mkFlake {inherit inputs;} (_: let
+    flake-parts.lib.mkFlake {inherit inputs;} ({
+      withSystem,
+      flake-parts-lib,
+      ...
+    }: let
       pre-commit = import ./nix/pre-commit.nix {};
       dev-shell = import ./nix/dev-shell.nix {};
-      flakeModule = import ./nix/flake-module.nix {};
       systems = import nix-systems;
+
+      inherit (flake-parts-lib) importApply;
+      flakeModule = importApply ./nix/flake-module.nix {inherit withSystem;};
     in {
       imports = [
         git-hooks-nix.flakeModule
@@ -53,8 +59,13 @@
 
       inherit systems;
 
-      perSystem = {pkgs, ...}: {
+      perSystem = {
+        config,
+        pkgs,
+        ...
+      }: {
         formatter = pkgs.alejandra;
+        packages.default = config.packages.age-plugin-se;
       };
 
       flake = {

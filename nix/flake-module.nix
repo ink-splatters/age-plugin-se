@@ -1,4 +1,4 @@
-_: {
+_: {config, ...}: {
   perSystem = {
     lib,
     pkgs,
@@ -7,7 +7,7 @@ _: {
     inherit (pkgs) swiftpm swiftpm2nix;
     inherit (pkgs.swift) stdenv swift;
   in {
-    packages.default = stdenv.mkDerivation rec {
+    config.packages.age-plugin-se = stdenv.mkDerivation rec {
       pname = "age-plugin-se";
       version = "0.1.4";
       src = ../.;
