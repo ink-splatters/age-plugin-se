@@ -18,7 +18,7 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-systems.url = "github:nix-systems/default";
+    systems.url = "github:nix-systems/default";
   };
 
   nixConfig = {
@@ -35,7 +35,6 @@
   outputs = inputs @ {
     git-hooks-nix,
     flake-parts,
-    nix-systems,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({
@@ -45,7 +44,7 @@
     }: let
       pre-commit = import ./nix/pre-commit.nix {};
       dev-shell = import ./nix/dev-shell.nix {};
-      systems = import nix-systems;
+      systems = import inputs.systems;
 
       inherit (flake-parts-lib) importApply;
       flakeModule = importApply ./nix/flake-module.nix {inherit withSystem;};
