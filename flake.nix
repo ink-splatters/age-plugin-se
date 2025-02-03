@@ -48,7 +48,7 @@
         formatter = pkgs.alejandra;
         devShells.default = pkgs.callPackage ./nix/dev-shell.nix {};
         packages = {
-          default = pkgs.callPackage ./nix/package {};
+          default = (pkgs.callPackage ./nix/package {}).${system};
         };
       }
     );

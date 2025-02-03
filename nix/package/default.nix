@@ -1,12 +1,11 @@
 {
+  lib,
   swift,
   swiftpm,
   swiftpm2nix,
   ...
 }: let
-  generated = swiftpm2nix.helpers ./swiftpm2nix;
-in
-  swift.stdenv.mkDerivation rec {
+  pkg = swift.stdenv.mkDerivation rec {
     pname = "age-plugin-se";
     version = "0.1.4";
     src = ../../.;
@@ -16,8 +15,6 @@ in
       swiftpm
     ];
 
-    configurePhase = generated.configure;
-
     installPhase = ''
       binPath="$(swiftpmBinPath)"
       mkdir -p $out/bin
@@ -26,8 +23,28 @@ in
 
     enableParallelBuilding = true;
 
-    __contentAddressed = true;
-    outputHashTye = "sha256";
     outputHashMode = "recursive";
-    outputHash = "sha256-OySBeUUk9ryYGEXvuBTC5G9ccsylLlq9M59+4DffHt8=";
-  }
+  };
+
+  darwin-pkg = {outputHash}:
+    pkg.overrideAttrs (_oa: {
+      patches = [
+        ./macos-remove-swift-crypto.patch
+      ];
+      inherit outputHash;
+    });
+
+  linux-pkg = {outputHash}: let
+    generated = swiftpm2nix.helpers ./swiftpm2nix;
+  in
+    pkg.overrideAttrs (_oa: {
+      configurePhase = generated.configure;
+      inherit outputHash;
+    });
+in {
+  "aarch64-darwin" = darwin-pkg {outputHash = "sha256-ghFZL78LiXCg/8OdNXLZGHpGg5Xh/WZqozGfBTmfr8c=";};
+  "x86_64-darwin" = darwin-pkg {outputHash = lib.fakeHash;}; # TODO
+
+  "aarch64-linux" = linux-pkg {outputHash = lib.fakeHash;}; # TODO
+  "x86_64-linux" = linux-pkg {outputHash = lib.fakeHash;}; # TODO
+}
