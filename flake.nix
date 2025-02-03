@@ -27,31 +27,28 @@
     ];
   };
 
-  outputs =
-    {
-      flake-utils,
-      nixpkgs,
-      git-hooks,
-      ...
-    }:
+  outputs = {
+    flake-utils,
+    nixpkgs,
+    git-hooks,
+    ...
+  }:
     flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+      system: let
         pkgs = nixpkgs.legacyPackages.${system};
         pre-commit = pkgs.callPackage ./nix/pre-commit.nix {
           inherit git-hooks system;
           src = ./.;
         };
-      in
-      {
-        checks = { inherit (pre-commit) check; };
+      in {
+        checks = {inherit (pre-commit) check;};
 
-        apps = { inherit (pre-commit) install-hooks; };
+        apps = {inherit (pre-commit) install-hooks;};
 
-        formatter = pkgs.nixfmt-rfc-style;
-        devShells.default = pkgs.callPackage ./nix/dev-shell.nix { };
+        formatter = pkgs.alejandra;
+        devShells.default = pkgs.callPackage ./nix/dev-shell.nix {};
         packages = {
-          default = pkgs.callPackage ./nix/package { };
+          default = pkgs.callPackage ./nix/package {};
         };
       }
     );

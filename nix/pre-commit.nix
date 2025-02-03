@@ -4,8 +4,7 @@
   src,
   system,
   ...
-}:
-rec {
+}: rec {
   check = git-hooks.lib.${system}.run {
     inherit src;
 
@@ -13,7 +12,7 @@ rec {
       deadnix.enable = true;
       # markdownlint.enable = true;
       nil.enable = true;
-      nixfmt-rfc-style.enable = true;
+      alejandra.enable = true;
       statix.enable = true;
       # shellcheck.enable = true;
       # shfmt.enable = true;
