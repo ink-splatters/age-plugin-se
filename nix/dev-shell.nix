@@ -5,7 +5,7 @@
   swiftpm2nix,
   ...
 }:
-mkShell.override { inherit (swift) stdenv; } {
+mkShell.override {inherit (swift) stdenv;} {
   nativeBuildInputs = [
     swift
     swiftpm
