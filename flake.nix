@@ -8,7 +8,7 @@
     };
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    systems.url = "github:nix-systems/default";
+    systems.url = "github:nix-systems/default-darwin";
   };
 
   nixConfig = {
@@ -22,7 +22,7 @@
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} (let
-      flakeModule = import ./nix/package;
+      flakeModule = import ./nix/flake-module.nix;
 
       systems = import inputs.systems;
     in {
