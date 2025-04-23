@@ -14,8 +14,7 @@ let package = Package(
       name: "age-plugin-se",
       dependencies: [
         .product(
-          name: "Crypto", package: "swift-crypto", condition: .when(platforms: [.linux, .windows])
-        ),
+          name: "Crypto", package: "swift-crypto", condition: .when(platforms: [.linux, .windows]))
       ],
     ),
     .testTarget(name: "Tests", dependencies: ["age-plugin-se"],),
