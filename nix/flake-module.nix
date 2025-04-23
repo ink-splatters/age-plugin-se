@@ -12,7 +12,7 @@
         ;
     in
       swift.stdenv.mkDerivation rec {
-        pname = "age-plugin-se";
+        pname = "age-plugin-se-macos";
         version = "0.1.4";
         inherit (config) src;
 
@@ -24,7 +24,7 @@
         installPhase = ''
           binPath="$(swiftpmBinPath)"
           mkdir -p $out/bin
-          cp $binPath/${pname} $out/bin/
+          cp $binPath/age-plugin-se $out/bin/
         '';
 
         enableParallelBuilding = true;
