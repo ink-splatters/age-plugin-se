@@ -1,46 +1,37 @@
 {
-  lib,
-  swift,
-  swiftpm,
-  swiftpm2nix,
-  ...
-}: let
-  pkg = {outputHash}:
-    swift.stdenv.mkDerivation rec {
-      pname = "age-plugin-se";
-      version = "0.1.4";
-      src = ../../.;
-
-      nativeBuildInputs = [
+  perSystem = {
+    config,
+    pkgs,
+    ...
+  }: {
+    config.packages.age-plugin-se = let
+      generated = swiftpm2nix.helpers ./swiftpm2nix;
+      inherit
+        (pkgs)
         swift
         swiftpm
-      ];
+        swiftpm2nix
+        ;
+    in
+      swift.stdenv.mkDerivation rec {
+        pname = "age-plugin-se";
+        version = "0.1.4";
+        inherit (config) src;
 
-      installPhase = ''
-        binPath="$(swiftpmBinPath)"
-        mkdir -p $out/bin
-        cp $binPath/${pname} $out/bin/
-      '';
+        configurePhase = generated.configure;
 
-      enableParallelBuilding = true;
+        nativeBuildInputs = [
+          swift
+          swiftpm
+        ];
 
-      inherit outputHash;
-      outputHashMode = "recursive";
-    };
+        installPhase = ''
+          binPath="$(swiftpmBinPath)"
+          mkdir -p $out/bin
+          cp $binPath/${pname} $out/bin/
+        '';
 
-  darwin-pkg = pkg;
-
-  linux-pkg = {outputHash}: let
-    generated = swiftpm2nix.helpers ./swiftpm2nix;
-  in
-    pkg.overrideAttrs (_oa: {
-      configurePhase = generated.configure;
-      inherit outputHash;
-    });
-in {
-  "aarch64-darwin" = darwin-pkg {outputHash = "sha256-ghFZL78LiXCg/8OdNXLZGHpGg5Xh/WZqozGfBTmfr8c=";};
-  "x86_64-darwin" = darwin-pkg {outputHash = lib.fakeHash;}; # TODO
-
-  "aarch64-linux" = linux-pkg {outputHash = lib.fakeHash;}; # TODO
-  "x86_64-linux" = linux-pkg {outputHash = lib.fakeHash;}; # TODO
+        enableParallelBuilding = true;
+      };
+  };
 }

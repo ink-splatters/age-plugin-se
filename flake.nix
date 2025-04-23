@@ -27,7 +27,7 @@
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} (let
-      flakeModule = import ./nix/flake-module.nix;
+      flakeModule = import ./nix/package;
 
       systems = import inputs.systems;
     in {
@@ -38,8 +38,16 @@
 
       inherit systems;
 
-      perSystem = {config, ...}: {
-        packages.default = config.packages.age-plugin-se;
+      perSystem = {
+        config,
+        lib,
+        ...
+      }: {
+        options.src = lib.mkOption {
+          default = ./.;
+        };
+
+        config.packages.default = config.packages.age-plugin-se;
       };
 
       partitionedAttrs = {
