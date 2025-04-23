@@ -2,13 +2,18 @@
   description = "Age plugin for Apple's Secure Enclave";
 
   inputs = {
-    flake-compat.url = "github:edolstra/flake-compat";
-    flake-compat.flake = false;
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    systems.url = "github:nix-systems/default";
   };
 
   nixConfig = {
@@ -22,14 +27,16 @@
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} (let
-      flakeModule = import ./nix/flake-module.nix {};
+      flakeModule = import ./nix/flake-module.nix;
+
+      systems = import inputs.systems;
     in {
       imports = [
         flake-parts.flakeModules.partitions
         flakeModule
       ];
 
-      systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
+      inherit systems;
 
       perSystem = {config, ...}: {
         packages.default = config.packages.age-plugin-se;
