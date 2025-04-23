@@ -2,6 +2,6 @@
 {
   workspaceStateFile = ./workspace-state.json;
   hashes = {
-    "swift-crypto" = "sha256-ysi7IhnRsOkQXXes2xIXtsEBPv84nA7xFjPcuIgBfWA=";
+    "swift-crypto" = "sha256-zxmHxTryAezgqU5qjXlFFThJlfUsPxb1KRBan4DSm9A=";
   };
 }
