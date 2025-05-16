@@ -1,0 +1,3 @@
+[submodule "tmp/swift"]
+	path = tmp/swift
+	url = https://github.com/ink-splatters/age-plugin-se.git
