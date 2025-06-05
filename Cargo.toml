@@ -1,0 +1,32 @@
+[package]
+name = "rage-plugin-se"
+version = "0.1.0"
+edition = "2021"
+description = "Secure Enclave plugin for age encryption"
+authors = ["Based on https://github.com/remko/age-plugin-se"]
+license = "MIT"
+
+[dependencies]
+p256 = { version = "0.13", features = ["ecdh", "serde"] }
+thiserror = "1.0"
+age = { version = "0.9", features = ["plugin"] }
+rand = "0.8"
+base64 = "0.21"
+sha2 = "0.10"
+hmac = "0.12"
+chacha20poly1305 = "0.10"
+hkdf = "0.12"
+bech32 = "0.9"
+clap = { version = "4.4", features = ["derive"] }
+log = "0.4"
+env_logger = "0.10"
+chrono = "0.4"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+security-framework = "2.9"
+core-foundation = "0.9"
+core-foundation-sys = "0.8"
+
+[[bin]]
+name = "rage-plugin-se"
+path = "src/main.rs" 
