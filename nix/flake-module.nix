@@ -12,7 +12,7 @@
         ;
     in
       swift.stdenv.mkDerivation rec {
-        pname = "age-plugin-se-macos";
+        pname = "age-plugin-se";
         version = "0.1.4+20250825";
         inherit (config) src;
 
