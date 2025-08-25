@@ -1,14 +1,7 @@
 {
   description = "Dependencies for development purposes";
 
-  inputs = {
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  };
+  inputs.git-hooks.url = "github:cachix/git-hooks.nix";
 
   nixConfig = {
     extra-substituters = [
