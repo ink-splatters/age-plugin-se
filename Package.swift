@@ -1,9 +1,9 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 5.10.1
 import PackageDescription
 
 let package = Package(
   name: "AgeSecureEnclavePlugin",
-  platforms: [.macOS(.v26)],
+  platforms: [.macOS(.v14)],
   dependencies: [
     // Only used on Linux & Windows
     .package(url: "https://github.com/apple/swift-crypto.git", "2.0.0"..<"5.0.0")
