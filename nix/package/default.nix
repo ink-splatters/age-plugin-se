@@ -1,4 +1,8 @@
 {
+  imports = [
+    ./swift-version.nix
+  ];
+
   perSystem = {
     config,
     pkgs,
@@ -15,8 +19,7 @@
     in
       swift.stdenv.mkDerivation rec {
         pname = "age-plugin-se";
-        version = "0.1.4";
-        inherit (config) src;
+        inherit (config) src version;
 
         configurePhase = generated.configure;
 
