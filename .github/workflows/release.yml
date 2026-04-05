@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            accept-flake-config = true
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Run checks before release
+        run: nix flake check --print-build-logs
+
+      - name: Build release binary
+        run: nix build .#age-plugin-se --print-build-logs
+
+      - name: Prepare release artifacts
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          ARTIFACT_NAME="age-plugin-se-${VERSION}-aarch64-apple-darwin"
+
+          mkdir -p dist
+          cp result/bin/age-plugin-se dist/
+
+          # Create tarball
+          tar -czvf "${ARTIFACT_NAME}.tar.gz" -C dist .
+
+          # Create checksum
+          shasum -a 256 "${ARTIFACT_NAME}.tar.gz" > "${ARTIFACT_NAME}.tar.gz.sha256"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            age-plugin-se-*.tar.gz
+            age-plugin-se-*.sha256
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}

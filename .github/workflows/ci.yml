@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main, macos]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: nix flake check
+    runs-on: macos-14  # Apple Silicon required for Secure Enclave
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            accept-flake-config = true
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Run flake checks
+        run: nix flake check --print-build-logs
+
+  # Verify the package builds (redundant with check, but explicit)
+  build:
+    name: nix build
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            accept-flake-config = true
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build package
+        run: nix build .#age-plugin-se --print-build-logs
+
+      - name: Verify binary runs
+        run: ./result/bin/age-plugin-se --help
