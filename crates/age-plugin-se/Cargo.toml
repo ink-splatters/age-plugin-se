@@ -1,0 +1,53 @@
+[package]
+name = "age-plugin-se"
+description = "age encryption plugin for Apple Secure Enclave"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+
+[[bin]]
+name = "age-plugin-se"
+path = "src/main.rs"
+
+[dependencies]
+apple-secure-enclave = { path = "../apple-secure-enclave" }
+
+# Cryptography
+p256.workspace = true
+chacha20poly1305.workspace = true
+hkdf.workspace = true
+sha2.workspace = true
+hmac.workspace = true
+rand_core = { version = "0.6", features = ["getrandom"] }
+
+# Encoding
+bech32.workspace = true
+base64.workspace = true
+
+# CLI
+clap.workspace = true
+
+# Error handling
+thiserror.workspace = true
+
+# Utilities
+zeroize.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "warn"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"
+unwrap_used = "warn"
+expect_used = "warn"

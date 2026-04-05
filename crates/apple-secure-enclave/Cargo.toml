@@ -1,0 +1,38 @@
+[package]
+name = "apple-secure-enclave"
+description = "Safe Rust bindings for Apple's Secure Enclave Processor"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords = ["secure-enclave", "apple", "cryptography", "p256", "ecdh"]
+categories = ["cryptography", "os::macos-apis", "authentication"]
+readme = "README.md"
+
+[dependencies]
+thiserror.workspace = true
+bitflags.workspace = true
+zeroize.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation.workspace = true
+core-foundation-sys.workspace = true
+security-framework-sys.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[features]
+default = []
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "warn"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"
+unwrap_used = "warn"
+expect_used = "warn"
