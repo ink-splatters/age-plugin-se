@@ -1,0 +1,47 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+._*
+
+# Testing artifacts
+*.profraw
+*.profdata
+
+# Build artifacts
+*.d
+*.rlib
+*.rmeta
+*.so
+*.dylib
+*.dll
+
+# Documentation
+/doc/
+
+# Coverage
+/coverage/
+tarpaulin-report.html
+.DS_Store
+build
+dist
+.env
+/*.binarycookies
+/*.csv
+/*.json
+/*.txt
+
+
+# direnv and git-hooks.nix
+
+/.direnv
+/.pre-commit-config.yaml
