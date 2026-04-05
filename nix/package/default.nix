@@ -9,19 +9,15 @@
     ...
   }: {
     config.packages.age-plugin-se = let
-      generated = swiftpm2nix.helpers ./swiftpm2nix;
       inherit
         (pkgs)
         swift
         swiftpm
-        swiftpm2nix
         ;
     in
       swift.stdenv.mkDerivation rec {
         pname = "age-plugin-se";
         inherit (config) src version;
-
-        configurePhase = generated.configure;
 
         nativeBuildInputs = [
           swift

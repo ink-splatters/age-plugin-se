@@ -10,12 +10,11 @@
       mkShell
       swift
       swiftpm
-      swiftpm2nix
       ;
   in {
     devShells.default = mkShell.override {inherit (swift) stdenv;} {
       nativeBuildInputs =
-        [swift swiftpm swiftpm2nix]
+        [swift swiftpm]
         ++ pre-commit.settings.enabledPackages;
 
       shellHook = pre-commit.installationScript;
