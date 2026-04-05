@@ -5,6 +5,23 @@
       {
         "basedOn": null,
         "packageRef": {
+          "identity": "swift-asn1",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/apple/swift-asn1.git",
+          "name": "swift-asn1"
+        },
+        "state": {
+          "checkoutState": {
+            "revision": "f70225981241859eb4aa1a18a75531d26637c8cc",
+            "version": "1.4.0"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "swift-asn1"
+      },
+      {
+        "basedOn": null,
+        "packageRef": {
           "identity": "swift-crypto",
           "kind": "remoteSourceControl",
           "location": "https://github.com/apple/swift-crypto.git",
@@ -12,8 +29,8 @@
         },
         "state": {
           "checkoutState": {
-            "revision": "60f13f60c4d093691934dc6cfdf5f508ada1f894",
-            "version": "2.6.0"
+            "revision": "95ba0316a9b733e92bb6b071255ff46263bbe7dc",
+            "version": "3.15.1"
           },
           "name": "sourceControlCheckout"
         },
