@@ -8,7 +8,6 @@
     };
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    systems.url = "github:nix-systems/default";
   };
 
   nixConfig = {
@@ -31,7 +30,7 @@
         flakeModule
       ];
 
-      inherit systems;
+      systems = ["aarch64-darwin"];
 
       perSystem = {
         config,
@@ -57,7 +56,7 @@
       partitions.dev = {
         extraInputsFlake = ./nix/dev;
         module = {
-          imports = [./nix/dev/flake-module.nix];
+          imports = [./nix/dev ];
         };
       };
 
