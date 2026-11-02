@@ -1,4 +1,4 @@
-{
+top: {
   perSystem = {
     config,
     pkgs,
@@ -36,7 +36,7 @@
         buildPhase = ''
           runHook preBuild
           swift build -c release \
-            -Xcc -mcpu=native \
+            -Xcc -mcpu=${top.config.build.native} \
             -Xcc -O3 \
             -Xswiftc -cross-module-optimization
           runHook postBuild
