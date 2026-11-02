@@ -1,9 +1,5 @@
 top: {
-  perSystem = {
-    config,
-    pkgs,
-    ...
-  }: {
+  perSystem = {pkgs, ...}: {
     config.packages.age-plugin-se = let
       generated = swiftpm2nix.helpers ./swiftpm2nix;
       inherit
@@ -15,7 +11,7 @@ top: {
     in
       swift.stdenv.mkDerivation rec {
         pname = "age-plugin-se";
-        inherit (config) src version;
+        inherit (top.config) src version;
 
         configurePhase = generated.configure;
 

@@ -21,7 +21,7 @@
   };
 
   outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} (let
+    flake-parts.lib.mkFlake {inherit inputs;} ({lib, ...}: let
       flakeModule = import ./nix/package;
 
       systems = import inputs.systems;
@@ -31,38 +31,38 @@
         flakeModule
       ];
 
-      inherit systems;
-
-      perSystem = {
-        config,
-        lib,
-        ...
-      }: {
-        options.src = lib.mkOption {
+      options = {
+        src = lib.mkOption {
+          type = lib.types.path;
           default = builtins.path {
             path = ./.;
             name = "age-plugin-se";
           };
         };
-
-        config.packages.default = config.packages.age-plugin-se;
       };
+      config = {
+        inherit systems;
 
-      partitionedAttrs = {
-        apps = "dev";
-        checks = "dev";
-        devShells = "dev";
-        formatter = "dev";
-      };
-      partitions.dev = {
-        extraInputsFlake = ./nix/dev;
-        module = {
-          imports = [./nix/dev];
+        perSystem = {config, ...}: {
+          config.packages.default = config.packages.age-plugin-se;
         };
-      };
 
-      flake = {
-        inherit flakeModule;
+        partitionedAttrs = {
+          apps = "dev";
+          checks = "dev";
+          devShells = "dev";
+          formatter = "dev";
+        };
+        partitions.dev = {
+          extraInputsFlake = ./nix/dev;
+          module = {
+            imports = [./nix/dev];
+          };
+        };
+
+        flake = {
+          inherit flakeModule;
+        };
       };
     });
 }
