@@ -69,18 +69,12 @@ protocol SecureEnclaveMLKEM768PrivateKey {
     func newSecureEnclaveMLKEM768PrivateKey(dataRepresentation: Data) throws
       -> SecureEnclaveMLKEM768PrivateKey
     {
-      if #unavailable(macOS 21.0) {
-        throw Plugin.Error.pqUnavailable
-      }
       return try SecureEnclave.MLKEM768.PrivateKey(
         dataRepresentation: dataRepresentation, authenticationContext: context)
     }
     func newSecureEnclaveMLKEM768PrivateKey(accessControl: SecAccessControl) throws
       -> SecureEnclaveMLKEM768PrivateKey
     {
-      if #unavailable(macOS 21.0) {
-        throw Plugin.Error.pqUnavailable
-      }
       return try SecureEnclave.MLKEM768.PrivateKey(
         accessControl: accessControl, authenticationContext: context)
     }

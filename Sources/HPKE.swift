@@ -83,9 +83,6 @@ enum HPKE {
   ) throws -> (
     sharedSecret: SymmetricKey, enc: Data
   ) {
-    if #unavailable(macOS 21.0) {
-      throw Plugin.Error.pqUnavailable
-    }
     let pq = try crypto.encapsulate(mlkem768Key: recipientMLKEM768Key)
     let sharedSecretPQ = pq.sharedSecret.withUnsafeBytes { Data($0) }
 
@@ -112,10 +109,6 @@ enum HPKE {
   ) throws
     -> SymmetricKey
   {
-    if #unavailable(macOS 21.0) {
-      throw Plugin.Error.pqUnavailable
-    }
-
     let encPQ = enc[..<1088]
     let encT = enc[1088...]
 

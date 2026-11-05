@@ -25,9 +25,9 @@ them with Touch ID.
 ## Requirements
 
 To generate identities (private keys) and decrypt encrypted files, you need a Mac
-running macOS 14 (Sonoma) with a Secure Enclave processor.
+running macOS 26 (Tahoe) with a Secure Enclave processor.
 
-For encrypting files, you need macOS 14 (Sonoma), Linux, or Windows. A
+For encrypting files, you need macOS 26 (Tahoe), Linux, or Windows. A
 Secure Enclave processor is not necessary.
 
 ## Installation
