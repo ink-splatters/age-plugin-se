@@ -8,42 +8,6 @@ import Foundation
   struct SecAccessControl {}
 #endif
 
-#if compiler(<6.2)
-  enum MLKEM768 {
-    struct PublicKey {
-      init(rawRepresentation: Data) throws {
-        throw Plugin.Error.pqUnsupported
-      }
-
-      func encapsulate() throws -> KEM.EncapsulationResult {
-        throw Plugin.Error.pqUnsupported
-      }
-
-      var rawRepresentation: Data {
-        fatalError(Plugin.Error.pqUnsupported.localizedDescription)
-      }
-    }
-
-    struct PrivateKey {
-      init(seedRepresentation: Data, publicKey: MLKEM768.PublicKey?) throws {
-        throw Plugin.Error.pqUnsupported
-      }
-
-      var publicKey: MLKEM768.PublicKey {
-        fatalError(Plugin.Error.pqUnsupported.localizedDescription)
-      }
-
-      var seedRepresentation: Data {
-        fatalError(Plugin.Error.pqUnsupported.localizedDescription)
-      }
-
-      func decapsulate(_ encapsulated: Data) throws -> SymmetricKey {
-        throw Plugin.Error.pqUnsupported
-      }
-    }
-  }
-#endif
-
 /// Abstraction for random/unpredictable/system-specific crypto operations
 protocol Crypto {
   var isSecureEnclaveAvailable: Bool { get }
@@ -105,28 +69,20 @@ protocol SecureEnclaveMLKEM768PrivateKey {
     func newSecureEnclaveMLKEM768PrivateKey(dataRepresentation: Data) throws
       -> SecureEnclaveMLKEM768PrivateKey
     {
-      #if compiler(>=6.2)
-        if #unavailable(macOS 21.0) {
-          throw Plugin.Error.pqUnavailable
-        }
-        return try SecureEnclave.MLKEM768.PrivateKey(
-          dataRepresentation: dataRepresentation, authenticationContext: context)
-      #else
-        throw Plugin.Error.pqUnsupported
-      #endif
+      if #unavailable(macOS 21.0) {
+        throw Plugin.Error.pqUnavailable
+      }
+      return try SecureEnclave.MLKEM768.PrivateKey(
+        dataRepresentation: dataRepresentation, authenticationContext: context)
     }
     func newSecureEnclaveMLKEM768PrivateKey(accessControl: SecAccessControl) throws
       -> SecureEnclaveMLKEM768PrivateKey
     {
-      #if compiler(>=6.2)
-        if #unavailable(macOS 21.0) {
-          throw Plugin.Error.pqUnavailable
-        }
-        return try SecureEnclave.MLKEM768.PrivateKey(
-          accessControl: accessControl, authenticationContext: context)
-      #else
-        throw Plugin.Error.pqUnsupported
-      #endif
+      if #unavailable(macOS 21.0) {
+        throw Plugin.Error.pqUnavailable
+      }
+      return try SecureEnclave.MLKEM768.PrivateKey(
+        accessControl: accessControl, authenticationContext: context)
     }
 
     func encapsulate(mlkem768Key: MLKEM768.PublicKey) throws -> KEM.EncapsulationResult {
@@ -137,10 +93,8 @@ protocol SecureEnclaveMLKEM768PrivateKey {
   extension SecureEnclave.P256.KeyAgreement.PrivateKey: SecureEnclaveP256PrivateKey {
   }
 
-  #if compiler(>=6.2)
-    extension SecureEnclave.MLKEM768.PrivateKey: SecureEnclaveMLKEM768PrivateKey {
-    }
-  #endif
+  extension SecureEnclave.MLKEM768.PrivateKey: SecureEnclaveMLKEM768PrivateKey {
+  }
 
 #else
 
